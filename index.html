@@ -1,1112 +1,3 @@
-<!-- <!-- <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Math Quiz</title>
-
-<style>
-
-body{
-font-family:Segoe UI;
-background:#eef2f7;
-display:flex;
-justify-content:center;
-padding:30px;
-}
-
-.wrapper{
-display:flex;
-gap:30px;
-}
-
-.container{
-background:white;
-width:700px;
-padding:30px;
-border-radius:10px;
-box-shadow:0 10px 20px rgba(0,0,0,0.1);
-}
-
-.score-panel{
-width:220px;
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 10px 20px rgba(0,0,0,0.1);
-display:none; /* hidden initially */
-}
-
-.score-panel h3{
-margin-top:0;
-color:#4a90e2;
-}
-
-.score-box{
-margin:10px 0;
-padding:8px;
-background:#f1f1f1;
-border-radius:5px;
-}
-
-h1{
-text-align:center;
-color:#4a90e2;
-}
-
-.question{
-font-size:20px;
-margin:20px 0;
-}
-
-.options{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
-
-.option{
-padding:12px;
-background:#f1f1f1;
-border-radius:6px;
-cursor:pointer;
-border:2px solid transparent;
-}
-
-.option.selected{
-border:2px solid #4a90e2;
-background:#ebf5fb;
-}
-
-.option.correct{
-border:2px solid #27ae60;
-background:#eafaf1;
-}
-
-.option.wrong{
-border:2px solid #c0392b;
-background:#fdecea;
-}
-
-.controls{
-margin-top:20px;
-display:flex;
-justify-content:space-between;
-}
-
-button{
-padding:10px 20px;
-border:none;
-border-radius:5px;
-cursor:pointer;
-color:white;
-}
-
-.prev{background:#7f8c8d;}
-.next{background:#4a90e2;}
-.submit{background:#27ae60;}
-
-.nav-grid{
-display:grid;
-grid-template-columns:repeat(10,1fr);
-gap:10px;
-margin-top:30px;
-}
-
-.nav-box{
-padding:10px;
-text-align:center;
-border:1px solid #ccc;
-cursor:pointer;
-background:white;
-}
-
-.nav-box.active{
-border:2px solid #4a90e2;
-}
-
-.nav-box.correct{
-background:#27ae60;
-color:white;
-}
-
-.nav-box.wrong{
-background:#c0392b;
-color:white;
-}
-
-.nav-box.unattempted{
-background:#bdc3c7;
-color:white;
-}
-
-</style>
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<script>
-(function(){
-emailjs.init("VS2zZjRXbOFQt68fQ");
-})();
-</script>
-</head>
-
-<body>
-
-<div class="wrapper">
-
-<div class="container">
-
-<h1>Math Quiz</h1>
-
-<div class="question" id="question"></div>
-
-<div class="options" id="options"></div>
-
-<div class="controls">
-<button class="prev" id="prevBtn" onclick="prevQuestion()">Previous</button>
-<button class="next" id="nextBtn" onclick="nextQuestion()">Next</button>
-<button class="submit" id="submitBtn" onclick="submitQuiz()">Submit</button>
-</div>
-
-<div class="nav-grid" id="navGrid"></div>
-
-</div>
-
-<div class="score-panel" id="scorePanel">
-
-<h3>Score Panel</h3>
-
-<div class="score-box">Total: <span id="totalQ"></span></div>
-<div class="score-box">Attempted: <span id="attemptedQ"></span></div>
-<div class="score-box">Correct: <span id="correctQ"></span></div>
-<div class="score-box">Wrong: <span id="wrongQ"></span></div>
-<div class="score-box">Score %: <span id="percent"></span></div>
-
-</div>
-
-</div>
-
-<script>
-
-const questions = [
-{
-q: "A shopkeeper buys an item for ₹200 and sells it for ₹250. What is the profit percentage?",
-options: ["20%", "25%", "30%", "15%"],
-answer: "25%"
-},
-{
-q: "A man sells an item for ₹450 with a loss of 10%. What was the cost price?",
-options: ["₹500", "₹480", "₹550", "₹520"],
-answer: "₹500"
-},
-{
-q: "If the cost price of 10 pens is equal to the selling price of 8 pens, what is the profit percentage?",
-options: ["20%", "25%", "30%", "15%"],
-answer: "25%"
-},
-{
-q: "A trader sells an article for ₹1200 and gains 20%. Find the cost price.",
-options: ["₹1000", "₹1100", "₹900", "₹950"],
-answer: "₹1000"
-},
-{
-q: "An item bought for ₹300 is sold for ₹270. Find the loss percentage.",
-options: ["10%", "15%", "5%", "12%"],
-answer: "10%"
-},
-{
-q: "What is 25% of 640?",
-options: ["120", "140", "160", "180"],
-answer: "160"
-},
-{
-q: "If 40% of a number is 200, what is the number?",
-options: ["400", "450", "500", "550"],
-answer: "500"
-},
-{
-q: "A number increased by 20% becomes 360. What is the original number?",
-options: ["250", "280", "300", "320"],
-answer: "300"
-},
-{
-q: "What percent of 80 is 20?",
-options: ["20%", "25%", "30%", "15%"],
-answer: "25%"
-},
-{
-q: "If a salary increases from ₹5000 to ₹6000, what is the percentage increase?",
-options: ["20%", "25%", "30%", "15%"],
-answer: "20%"
-},
-{
-q: "The average of 5 numbers is 20. What is their total?",
-options: ["80", "90", "100", "120"],
-answer: "100"
-},
-{
-q: "The average of 10 numbers is 15. What will be the new average if one number 25 replaces 15?",
-options: ["16", "15", "17", "18"],
-answer: "16"
-},
-{
-q: "Average of 3 numbers is 30. Two numbers are 20 and 40. Find the third number.",
-options: ["30", "25", "35", "20"],
-answer: "30"
-},
-{
-q: "Average of 4 numbers is 25. If one number is removed, average becomes 20. What was the removed number?",
-options: ["40", "45", "35", "50"],
-answer: "40"
-},
-{
-q: "Average age of 5 students is 18. What is their total age?",
-options: ["80", "85", "90", "95"],
-answer: "90"
-},
-{
-q: "Pointing to a woman, Ram said: 'She is the daughter of my grandfather's only son.' Who is she to Ram?",
-options: ["Sister", "Mother", "Cousin", "Aunt"],
-answer: "Sister"
-},
-{
-q: "A is the father of B, but B is not the son of A. How is B related to A?",
-options: ["Daughter", "Mother", "Sister", "Wife"],
-answer: "Daughter"
-},
-{
-q: "If Rahul is the brother of Rina and Rina is the mother of Aman, how is Rahul related to Aman?",
-options: ["Uncle", "Brother", "Father", "Grandfather"],
-answer: "Uncle"
-},
-{
-q: "P is the son of Q. Q is the sister of R. How is R related to P?",
-options: ["Uncle/Aunt", "Father", "Brother", "Grandmother"],
-answer: "Uncle/Aunt"
-},
-{
-q: "A man introduces a woman as 'the daughter of the only son of my father'. How is the woman related to the man?",
-options: ["Daughter", "Sister", "Mother", "Niece"],
-answer: "Daughter"
-}
-];
-
-let current=0;
-let answers=new Array(questions.length).fill(null);
-let submitted=false;
-
-const qText=document.getElementById("question");
-const optionsDiv=document.getElementById("options");
-const navGrid=document.getElementById("navGrid");
-
-function init(){
-
-document.getElementById("totalQ").innerText=questions.length;
-
-createNav();
-loadQuestion();
-
-}
-
-function createNav(){
-
-questions.forEach((q,i)=>{
-
-const box=document.createElement("div");
-
-box.className="nav-box";
-box.innerText=i+1;
-box.onclick=()=>jump(i);
-box.id="nav"+i;
-
-navGrid.appendChild(box);
-
-});
-
-}
-
-function loadQuestion(){
-
-const q=questions[current];
-
-qText.innerText=(current+1)+". "+q.q;
-
-optionsDiv.innerHTML="";
-
-q.options.forEach((opt,i)=>{
-
-const btn=document.createElement("div");
-btn.className="option";
-
-let text=opt;
-
-if(submitted){
-
-if(i===q.ans){
-btn.classList.add("correct");
-text+=" ✔";
-}
-
-if(answers[current]===i && i!==q.ans){
-btn.classList.add("wrong");
-text+=" ✖";
-}
-
-}else{
-
-if(answers[current]===i){
-btn.classList.add("selected");
-}
-
-btn.onclick=()=>select(i);
-
-}
-
-btn.innerText=text;
-
-optionsDiv.appendChild(btn);
-
-});
-
-updateButtons();
-updateNav();
-
-}
-
-function select(i){
-
-answers[current]=i;
-loadQuestion();
-
-}
-
-function updateButtons(){
-
-document.getElementById("prevBtn").disabled=(current===0);
-
-if(current===questions.length-1){
-document.getElementById("nextBtn").style.display="none";
-document.getElementById("submitBtn").style.display="inline-block";
-}else{
-document.getElementById("nextBtn").style.display="inline-block";
-document.getElementById("submitBtn").style.display="none";
-}
-
-}
-
-function updateNav(){
-
-questions.forEach((q,i)=>{
-
-const box=document.getElementById("nav"+i);
-
-/* reset styles */
-box.className="nav-box";
-box.style.background="";
-box.style.color="";
-
-/* current question highlight */
-if(i===current){
-box.classList.add("active");
-}
-
-if(!submitted){
-
-/* BEFORE SUBMIT */
-
-if(answers[i]!==null){
-box.style.background="black";
-box.style.color="white";
-}else{
-box.style.background="white";
-box.style.color="black";
-}
-
-}else{
-
-/* AFTER SUBMIT */
-
-if(answers[i]===null){
-box.style.background="#bdc3c7";  // grey
-box.style.color="white";
-
-}else if(answers[i]===q.ans){
-box.style.background="#27ae60";  // green
-box.style.color="white";
-
-}else{
-box.style.background="#c0392b";  // red
-box.style.color="white";
-}
-
-}
-
-});
-
-}
-
-function updateScorePanel(){
-
-let attempted=0;
-let correct=0;
-let wrong=0;
-
-answers.forEach((a,i)=>{
-
-if(a!==null){
-attempted++;
-
-if(a===questions[i].ans){
-correct++;
-}else{
-wrong++;
-}
-
-}
-
-});
-
-let percent=Math.round((correct/questions.length)*100);
-
-document.getElementById("attemptedQ").innerText=attempted;
-document.getElementById("correctQ").innerText=correct;
-document.getElementById("wrongQ").innerText=wrong;
-document.getElementById("percent").innerText=percent+"%";
-
-}
-
-function nextQuestion(){
-if(current<questions.length-1){
-current++;
-loadQuestion();
-}
-}
-
-function prevQuestion(){
-if(current>0){
-current--;
-loadQuestion();
-}
-}
-
-function jump(i){
-current=i;
-loadQuestion();
-}
-
-function submitQuiz(){
-
-submitted=true;
-
-/* show score panel */
-document.getElementById("scorePanel").style.display="block";
-
-updateScorePanel();
-
-loadQuestion();
-updateNav();
-
-/* calculate score */
-let attempted=0;
-let correct=0;
-let wrong=0;
-
-answers.forEach((a,i)=>{
-
-if(a!==null){
-attempted++;
-
-if(a===questions[i].answer){
-correct++;
-}else{
-wrong++;
-}
-
-}
-
-});
-
-let percent=Math.round((correct/questions.length)*100);
-
-/* EMAIL PARAMETERS */
-
-let params={
-score: correct,
-total: questions.length,
-percentage: percent + "%"
-};
-
-/* SEND EMAIL */
-
-emailjs.send("service_ux4v0sa","template_z4lof68",params)
-.then(function(response){
-console.log("Email Sent Successfully");
-})
-.catch(function(error){
-console.log("Email Failed",error);
-});
-
-}
-
-init();
-
-</script>
-
-</body>
-</html> -->
-<!-- <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Math Quiz</title>
-
-<style>
-
-body{
-font-family:Segoe UI;
-background:#eef2f7;
-display:flex;
-justify-content:center;
-padding:30px;
-}
-
-.wrapper{
-display:flex;
-gap:30px;
-}
-
-.container{
-background:white;
-width:700px;
-padding:30px;
-border-radius:10px;
-box-shadow:0 10px 20px rgba(0,0,0,0.1);
-}
-
-.score-panel{
-width:220px;
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 10px 20px rgba(0,0,0,0.1);
-display:none; /* hidden initially */
-}
-
-.score-panel h3{
-margin-top:0;
-color:#4a90e2;
-}
-
-.score-box{
-margin:10px 0;
-padding:8px;
-background:#f1f1f1;
-border-radius:5px;
-}
-
-h1{
-text-align:center;
-color:#4a90e2;
-}
-
-.question{
-font-size:20px;
-margin:20px 0;
-}
-
-.options{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
-
-.option{
-padding:12px;
-background:#f1f1f1;
-border-radius:6px;
-cursor:pointer;
-border:2px solid transparent;
-}
-
-.option.selected{
-border:2px solid #4a90e2;
-background:#ebf5fb;
-}
-
-.option.correct{
-border:2px solid #27ae60;
-background:#eafaf1;
-}
-
-.option.wrong{
-border:2px solid #c0392b;
-background:#fdecea;
-}
-
-.controls{
-margin-top:20px;
-display:flex;
-justify-content:space-between;
-}
-
-button{
-padding:10px 20px;
-border:none;
-border-radius:5px;
-cursor:pointer;
-color:white;
-}
-
-.prev{background:#7f8c8d;}
-.next{background:#4a90e2;}
-.submit{background:#27ae60;}
-
-.nav-grid{
-display:grid;
-grid-template-columns:repeat(10,1fr);
-gap:10px;
-margin-top:30px;
-}
-
-.nav-box{
-padding:10px;
-text-align:center;
-border:1px solid #ccc;
-cursor:pointer;
-background:white;
-}
-
-.nav-box.active{
-border:2px solid #4a90e2;
-}
-
-.nav-box.correct{
-background:#27ae60;
-color:white;
-}
-
-.nav-box.wrong{
-background:#c0392b;
-color:white;
-}
-
-.nav-box.unattempted{
-background:#bdc3c7;
-color:white;
-}
-
-</style>
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<script>
-(function(){
-emailjs.init("VS2zZjRXbOFQt68fQ");
-})();
-</script>
-</head>
-
-<body>
-
-<div class="wrapper">
-
-<div class="container">
-
-<h1>Math Quiz</h1>
-
-<div class="question" id="question"></div>
-
-<div class="options" id="options"></div>
-
-<div class="controls">
-<button class="prev" id="prevBtn" onclick="prevQuestion()">Previous</button>
-<button class="next" id="nextBtn" onclick="nextQuestion()">Next</button>
-<button class="submit" id="submitBtn" onclick="submitQuiz()">Submit</button>
-</div>
-
-<div class="nav-grid" id="navGrid"></div>
-
-</div>
-
-<div class="score-panel" id="scorePanel">
-
-<h3>Score Panel</h3>
-
-<div class="score-box">Total: <span id="totalQ"></span></div>
-<div class="score-box">Attempted: <span id="attemptedQ"></span></div>
-<div class="score-box">Correct: <span id="correctQ"></span></div>
-<div class="score-box">Wrong: <span id="wrongQ"></span></div>
-<div class="score-box">Score %: <span id="percent"></span></div>
-
-</div>
-
-</div>
-
-<script>
-
-const questions = [
-{
-q: "A shopkeeper buys an item for ₹200 and sells it for ₹250. What is the profit percentage?",
-options: ["20%", "25%", "30%", "15%"],
-ans: "25%"
-},
-{
-q: "A man sells an item for ₹450 with a loss of 10%. What was the cost price?",
-options: ["₹500", "₹480", "₹550", "₹520"],
-ans: "₹500"
-},
-{
-q: "If the cost price of 10 pens is equal to the selling price of 8 pens, what is the profit percentage?",
-options: ["20%", "25%", "30%", "15%"],
-ans: "25%"
-},
-{
-q: "A trader sells an article for ₹1200 and gains 20%. Find the cost price.",
-options: ["₹1000", "₹1100", "₹900", "₹950"],
-ans: "₹1000"
-},
-{
-q: "An item bought for ₹300 is sold for ₹270. Find the loss percentage.",
-options: ["10%", "15%", "5%", "12%"],
-ans: "10%"
-},
-{
-q: "What is 25% of 640?",
-options: ["120", "140", "160", "180"],
-ans: "160"
-},
-{
-q: "If 40% of a number is 200, what is the number?",
-options: ["400", "450", "500", "550"],
-ans: "500"
-},
-{
-q: "A number increased by 20% becomes 360. What is the original number?",
-options: ["250", "280", "300", "320"],
-ans: "300"
-},
-{
-q: "What percent of 80 is 20?",
-options: ["20%", "25%", "30%", "15%"],
-ans: "25%"
-},
-{
-q: "If a salary increases from ₹5000 to ₹6000, what is the percentage increase?",
-options: ["20%", "25%", "30%", "15%"],
-ans: "20%"
-},
-{
-q: "The average of 5 numbers is 20. What is their total?",
-options: ["80", "90", "100", "120"],
-ans: "100"
-},
-{
-q: "The average of 10 numbers is 15. What will be the new average if one number 25 replaces 15?",
-options: ["16", "15", "17", "18"],
-ans: "16"
-},
-{
-q: "Average of 3 numbers is 30. Two numbers are 20 and 40. Find the third number.",
-options: ["30", "25", "35", "20"],
-ans: "30"
-},
-{
-q: "Average of 4 numbers is 25. If one number is removed, average becomes 20. What was the removed number?",
-options: ["40", "45", "35", "50"],
-ans: "40"
-},
-{
-q: "Average age of 5 students is 18. What is their total age?",
-options: ["80", "85", "90", "95"],
-ans: "90"
-},
-{
-q: "Pointing to a woman, Ram said: 'She is the daughter of my grandfather's only son.' Who is she to Ram?",
-options: ["Sister", "Mother", "Cousin", "Aunt"],
-ans: "Sister"
-},
-{
-q: "A is the father of B, but B is not the son of A. How is B related to A?",
-options: ["Daughter", "Mother", "Sister", "Wife"],
-ans: "Daughter"
-},
-{
-q: "If Rahul is the brother of Rina and Rina is the mother of Aman, how is Rahul related to Aman?",
-options: ["Uncle", "Brother", "Father", "Grandfather"],
-ans: "Uncle"
-},
-{
-q: "P is the son of Q. Q is the sister of R. How is R related to P?",
-options: ["Uncle/Aunt", "Father", "Brother", "Grandmother"],
-ans: "Uncle/Aunt"
-},
-{
-q: "A man introduces a woman as 'the daughter of the only son of my father'. How is the woman related to the man?",
-options: ["Daughter", "Sister", "Mother", "Niece"],
-ans: "Daughter"
-}
-];
-
-let current=0;
-let answers=new Array(questions.length).fill(null);
-let submitted=false;
-
-const qText=document.getElementById("question");
-const optionsDiv=document.getElementById("options");
-const navGrid=document.getElementById("navGrid");
-
-function init(){
-
-document.getElementById("totalQ").innerText=questions.length;
-
-createNav();
-loadQuestion();
-
-}
-
-function createNav(){
-
-questions.forEach((q,i)=>{
-
-const box=document.createElement("div");
-
-box.className="nav-box";
-box.innerText=i+1;
-box.onclick=()=>jump(i);
-box.id="nav"+i;
-
-navGrid.appendChild(box);
-
-});
-
-}
-
-function loadQuestion(){
-
-const q=questions[current];
-
-qText.innerText=(current+1)+". "+q.q;
-
-optionsDiv.innerHTML="";
-
-q.options.forEach((opt,i)=>{
-
-const btn=document.createElement("div");
-btn.className="option";
-
-let text=opt;
-
-if(submitted){
-
-if(i===q.ans){
-btn.classList.add("correct");
-text+=" ✔";
-}
-
-if(answers[current]===i && i!==q.ans){
-btn.classList.add("wrong");
-text+=" ✖";
-}
-
-}else{
-
-if(answers[current]===i){
-btn.classList.add("selected");
-}
-
-btn.onclick=()=>select(i);
-
-}
-
-btn.innerText=text;
-
-optionsDiv.appendChild(btn);
-
-});
-
-updateButtons();
-updateNav();
-
-}
-
-function select(i){
-
-answers[current]=i;
-loadQuestion();
-
-}
-
-function updateButtons(){
-
-document.getElementById("prevBtn").disabled=(current===0);
-
-if(current===questions.length-1){
-document.getElementById("nextBtn").style.display="none";
-document.getElementById("submitBtn").style.display="inline-block";
-}else{
-document.getElementById("nextBtn").style.display="inline-block";
-document.getElementById("submitBtn").style.display="none";
-}
-
-}
-
-function updateNav(){
-
-questions.forEach((q,i)=>{
-
-const box=document.getElementById("nav"+i);
-
-/* reset styles */
-box.className="nav-box";
-box.style.background="";
-box.style.color="";
-
-/* current question highlight */
-if(i===current){
-box.classList.add("active");
-}
-
-if(!submitted){
-
-/* BEFORE SUBMIT */
-
-if(answers[i]!==null){
-box.style.background="black";
-box.style.color="white";
-}else{
-box.style.background="white";
-box.style.color="black";
-}
-
-}else{
-
-/* AFTER SUBMIT */
-
-if(answers[i]===null){
-box.style.background="#bdc3c7";  // grey
-box.style.color="white";
-
-}else if(answers[i]===q.ans){
-box.style.background="#27ae60";  // green
-box.style.color="white";
-
-}else{
-box.style.background="#c0392b";  // red
-box.style.color="white";
-}
-
-}
-
-});
-
-}
-function updateScorePanel(){
-
-let attempted=0;
-let correct=0;
-let wrong=0;
-
-answers.forEach((a,i)=>{
-
-if(a!==null){
-attempted++;
-
-if(a===questions[i].ans){
-correct++;
-}else{
-wrong++;
-}
-
-}
-
-});
-
-let percent=Math.round((correct/questions.length)*100);
-
-document.getElementById("attemptedQ").innerText=attempted;
-document.getElementById("correctQ").innerText=correct;
-document.getElementById("wrongQ").innerText=wrong;
-document.getElementById("percent").innerText=percent+"%";
-
-}
-
-function nextQuestion(){
-if(current<questions.length-1){
-current++;
-loadQuestion();
-}
-}
-
-function prevQuestion(){
-if(current>0){
-current--;
-loadQuestion();
-}
-}
-
-function jump(i){
-current=i;
-loadQuestion();
-}
-
-function submitQuiz(){
-
-submitted=true;
-
-/* show score panel */
-document.getElementById("scorePanel").style.display="block";
-
-updateScorePanel();
-
-loadQuestion();
-updateNav();
-
-/* calculate score */
-let attempted=0;
-let correct=0;
-let wrong=0;
-
-answers.forEach((a,i)=>{
-
-if(a!==null){
-attempted++;
-
-if(a===questions[i].answer){
-correct++;
-}else{
-wrong++;
-}
-
-}
-
-});
-
-let percent=Math.round((correct/questions.length)*100);
-
-/* EMAIL PARAMETERS */
-
-let params={
-score: correct,
-total: questions.length,
-percentage: percent + "%"
-};
-
-/* SEND EMAIL */
-
-emailjs.send("service_ux4v0sa","template_z4lof68",params)
-.then(function(response){
-console.log("Email Sent Successfully");
-})
-.catch(function(error){
-console.log("Email Failed",error);
-});
-
-}
-
-init();
-
-</script>
-
-</body>
-</html> -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -1114,7 +5,6 @@ init();
 <title>Math Quiz</title>
 
 <style>
-
 body{
 font-family:Segoe UI;
 background:#eef2f7;
@@ -1123,7 +13,6 @@ justify-content:center;
 padding:30px;
 }
 
-/* START SCREEN */
 #startScreen{
 width:100%;
 display:flex;
@@ -1142,7 +31,7 @@ text-align:center;
 .wrapper{
 display:flex;
 gap:30px;
-display:none; /* hidden initially */
+display:none;
 }
 
 .container{
@@ -1162,11 +51,6 @@ box-shadow:0 10px 20px rgba(0,0,0,0.1);
 display:none;
 }
 
-.score-panel h3{
-margin-top:0;
-color:#4a90e2;
-}
-
 .score-box{
 margin:10px 0;
 padding:8px;
@@ -1174,15 +58,8 @@ background:#f1f1f1;
 border-radius:5px;
 }
 
-h1{
-text-align:center;
-color:#4a90e2;
-}
-
-.question{
-font-size:20px;
-margin:20px 0;
-}
+h1{text-align:center;color:#4a90e2;}
+.question{font-size:20px;margin:20px 0;}
 
 .options{
 display:grid;
@@ -1245,15 +122,9 @@ border:1px solid #ccc;
 cursor:pointer;
 background:white;
 }
-
-.nav-box.active{
-border:2px solid #4a90e2;
-}
-
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
 <script>
 (function(){
 emailjs.init("VS2zZjRXbOFQt68fQ");
@@ -1264,25 +135,20 @@ emailjs.init("VS2zZjRXbOFQt68fQ");
 
 <body>
 
-<!-- START SCREEN -->
 <div id="startScreen">
-    <div class="start-box">
-        <h2>Enter Your Email</h2>
-        <input type="email" id="userEmail" placeholder="Enter email"
-        style="padding:10px; width:250px; border-radius:5px; border:1px solid #ccc;">
-        <br><br>
-        <button onclick="startQuiz()" style="background:#4a90e2;">Start Quiz</button>
-    </div>
+<div class="start-box">
+<h2>Enter Your Email</h2>
+<input type="email" id="userEmail" placeholder="Enter email" style="padding:10px;width:250px;">
+<br><br>
+<button onclick="startQuiz()" style="background:#4a90e2;">Start Quiz</button>
+</div>
 </div>
 
 <div class="wrapper">
 
 <div class="container">
-
 <h1>Math Quiz</h1>
-
-<div class="question" id="question"></div>
-
+<div id="question"></div>
 <div class="options" id="options"></div>
 
 <div class="controls">
@@ -1292,86 +158,65 @@ emailjs.init("VS2zZjRXbOFQt68fQ");
 </div>
 
 <div class="nav-grid" id="navGrid"></div>
-
 </div>
 
 <div class="score-panel" id="scorePanel">
-
 <h3>Score Panel</h3>
-
 <div class="score-box">Total: <span id="totalQ"></span></div>
 <div class="score-box">Attempted: <span id="attemptedQ"></span></div>
 <div class="score-box">Correct: <span id="correctQ"></span></div>
 <div class="score-box">Wrong: <span id="wrongQ"></span></div>
 <div class="score-box">Score %: <span id="percent"></span></div>
-
 </div>
 
 </div>
 
 <script>
 
-let userEmail = "";
+let userEmail="";
 
 function startQuiz(){
-let email = document.getElementById("userEmail").value;
+let email=document.getElementById("userEmail").value;
+if(email===""){ alert("Enter email"); return; }
 
-if(email === ""){
-alert("Enter email");
-return;
-}
-
-userEmail = email;
-
+userEmail=email;
 document.getElementById("startScreen").style.display="none";
 document.querySelector(".wrapper").style.display="flex";
 
 init();
 }
 
+/* 🔴 YOUR ORIGINAL QUESTIONS (UNCHANGED) */
 const questions = [
-
-/* Profit and Loss */
 {q:"A shopkeeper marks goods 40% above cost price and gives 10% discount. Profit %?",options:["20%","26%","30%","36%"],ans:"26%"},
 {q:"A man sells an item at 20% loss for ₹800. Cost price?",options:["900","950","1000","1100"],ans:"1000"},
 {q:"If SP of 15 items = CP of 20 items, profit %?",options:["25%","33.33%","20%","40%"],ans:"33.33%"},
 {q:"Marked price ₹500, discount 20%, profit 25%. Cost price?",options:["300","320","350","400"],ans:"320"},
 {q:"A trader gives 2 successive discounts of 10% and 20%. Total discount?",options:["28%","30%","32%","25%"],ans:"28%"},
 {q:"An article is sold at 25% profit. If CP increases by 20% and SP remains same, new profit %?",options:["4.16%","5%","6%","8%"],ans:"4.16%"},
-
-/* Blood Relations */
 {q:"A is B’s brother, C is B’s mother, D is C’s father. How is D related to A?",options:["Father","Grandfather","Uncle","Brother"],ans:"Grandfather"},
 {q:"P is Q’s sister, R is Q’s mother, S is R’s father. How is S related to P?",options:["Father","Grandfather","Uncle","Brother"],ans:"Grandfather"},
 {q:"A man introduces a woman as 'She is the wife of my only son’s mother'. Who is the woman?",options:["Mother","Sister","Wife","Daughter"],ans:"Wife"},
 {q:"X is the son of Y. Y is the sister of Z. How is Z related to X?",options:["Uncle/Aunt","Father","Grandfather","Brother"],ans:"Uncle/Aunt"},
 {q:"Pointing to a man, a woman says, 'His mother is the only daughter of my mother.' Who is the man?",options:["Brother","Son","Father","Uncle"],ans:"Son"},
-
-/* Problems on Age */
 {q:"Sum of ages of father and son is 50. After 5 years, ratio becomes 3:2. Present age of son?",options:["15","20","25","10"],ans:"15"},
 {q:"A is twice as old as B. 5 years ago, A was 3 times B. Present age of A?",options:["20","25","30","35"],ans:"30"},
 {q:"Ratio of ages of A and B is 4:3. After 6 years, ratio becomes 5:4. Present age of A?",options:["24","20","18","16"],ans:"24"},
 {q:"Present ages of A and B are in ratio 5:3. After 8 years, ratio becomes 7:5. Present age of B?",options:["18","24","30","20"],ans:"24"},
 {q:"A father is 3 times as old as his son. After 10 years, he will be twice as old. Present age of son?",options:["10","12","15","20"],ans:"10"},
 {q:"A is 4 years older than B. B is twice as old as C. Sum of ages is 32. Age of C?",options:["6","8","10","12"],ans:"6"},
-
-/* Direction and Distance */
 {q:"A walks 10m north, then 5m east, then 10m south. How far from start?",options:["5m","10m","15m","20m"],ans:"5m"},
 {q:"A goes 20m east, then 15m north, then 20m west. Distance from start?",options:["10m","15m","20m","25m"],ans:"15m"},
 {q:"Ravi walks 5m south, 10m west, 5m north. Distance from start?",options:["5m","10m","15m","20m"],ans:"10m"},
 {q:"A walks 8m east, 6m south, 8m west, 2m north. Distance from start?",options:["2m","4m","6m","8m"],ans:"4m"},
 {q:"A man walks 10m north, then 10m east, then 5m south. How far and in which direction?",options:["15m NE","5m East","10m East","5m NE"],ans:"5m East"},
-
-/* Number Series */
 {q:"Find next: 2, 6, 12, 20, 30, ?",options:["36","40","42","44"],ans:"42"},
 {q:"Find next: 3, 9, 27, 81, ?",options:["162","243","324","729"],ans:"243"},
 {q:"Find next: 5, 10, 20, 40, 80, ?",options:["120","140","160","160"],ans:"160"},
 {q:"Find next: 1, 4, 9, 16, 25, ?",options:["30","35","36","40"],ans:"36"},
 {q:"Find next: 11, 13, 17, 23, 31, ?",options:["37","39","41","43"],ans:"41"},
 {q:"Find next: 2, 5, 11, 23, 47, ?",options:["90","91","93","95"],ans:"95"},
-
-/* Mixed Hard */
 {q:"If cost price increases by 20% and selling price remains same, profit reduces by?",options:["20%","16.67%","25%","30%"],ans:"16.67%"}
-
 ];
 
 let current=0;
@@ -1393,8 +238,8 @@ questions.forEach((q,i)=>{
 const box=document.createElement("div");
 box.className="nav-box";
 box.innerText=i+1;
-box.onclick=()=>jump(i);
 box.id="nav"+i;
+box.onclick=()=>jump(i);
 navGrid.appendChild(box);
 });
 }
@@ -1407,13 +252,25 @@ optionsDiv.innerHTML="";
 q.options.forEach((opt,i)=>{
 const btn=document.createElement("div");
 btn.className="option";
+let text=opt;
 
+if(submitted){
+if(opt===q.ans){
+btn.classList.add("correct");
+text+=" ✔";
+}
+if(answers[current]===i && opt!==q.ans){
+btn.classList.add("wrong");
+text+=" ✖";
+}
+}else{
 if(answers[current]===i){
 btn.classList.add("selected");
 }
-
 btn.onclick=()=>select(i);
-btn.innerText=opt;
+}
+
+btn.innerText=text;
 optionsDiv.appendChild(btn);
 });
 
@@ -1427,87 +284,87 @@ loadQuestion();
 }
 
 function updateButtons(){
-document.getElementById("prevBtn").disabled=(current===0);
-
+prevBtn.disabled=(current===0);
 if(current===questions.length-1){
-document.getElementById("nextBtn").style.display="none";
-document.getElementById("submitBtn").style.display="inline-block";
+nextBtn.style.display="none";
+submitBtn.style.display="inline-block";
 }else{
-document.getElementById("nextBtn").style.display="inline-block";
-document.getElementById("submitBtn").style.display="none";
+nextBtn.style.display="inline-block";
+submitBtn.style.display="none";
 }
 }
 
 function updateNav(){
 questions.forEach((q,i)=>{
 const box=document.getElementById("nav"+i);
-box.className="nav-box";
 
 if(i===current){
-box.classList.add("active");
+box.style.border="2px solid #4a90e2";
+}else{
+box.style.border="1px solid #ccc";
 }
 
+if(!submitted){
 if(answers[i]!==null){
 box.style.background="black";
 box.style.color="white";
+}else{
+box.style.background="white";
+box.style.color="black";
 }
+}else{
+if(answers[i]===null){
+box.style.background="#bdc3c7";
+}
+else if(questions[i].options[answers[i]]===q.ans){
+box.style.background="#27ae60";
+}
+else{
+box.style.background="#c0392b";
+}
+box.style.color="white";
+}
+
+box.onclick=()=>jump(i);
 });
 }
 
-function nextQuestion(){
-current++;
-loadQuestion();
-}
-
-function prevQuestion(){
-current--;
-loadQuestion();
-}
-
-function jump(i){
-current=i;
-loadQuestion();
-}
+function nextQuestion(){ current++; loadQuestion(); }
+function prevQuestion(){ current--; loadQuestion(); }
+function jump(i){ current=i; loadQuestion(); }
 
 function submitQuiz(){
 
 submitted=true;
-
 document.getElementById("scorePanel").style.display="block";
 
-let attempted=0;
-let correct=0;
-let wrong=0;
+let attempted=0,correct=0,wrong=0;
 
 answers.forEach((a,i)=>{
 if(a!==null){
 attempted++;
-if(questions[i].options[a]===questions[i].ans){
-correct++;
-}else{
-wrong++;
-}
+if(questions[i].options[a]===questions[i].ans){correct++;}
+else{wrong++;}
 }
 });
 
 let percent=Math.round((correct/questions.length)*100);
 
-document.getElementById("attemptedQ").innerText=attempted;
-document.getElementById("correctQ").innerText=correct;
-document.getElementById("wrongQ").innerText=wrong;
-document.getElementById("percent").innerText=percent+"%";
+attemptedQ.innerText=attempted;
+correctQ.innerText=correct;
+wrongQ.innerText=wrong;
+percent.innerText=percent+"%";
+
+loadQuestion();
+updateNav();
 
 /* EMAIL */
-let params={
+emailjs.send("service_ux4v0sa","template_z4lof68",{
 to_email:userEmail,
 score:correct,
 total:questions.length,
 percentage:percent+"%"
-};
-
-emailjs.send("service_ux4v0sa","template_z4lof68",params)
-.then(()=>alert("Email Sent"))
-.catch(()=>alert("Email Failed"));
+});
 
 }
 
