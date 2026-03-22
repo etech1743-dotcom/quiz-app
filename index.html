@@ -188,35 +188,264 @@ init();
 
 /* 🔴 YOUR ORIGINAL QUESTIONS (UNCHANGED) */
 const questions = [
-{q:"A shopkeeper marks goods 40% above cost price and gives 10% discount. Profit %?",options:["20%","26%","30%","36%"],ans:"26%"},
-{q:"A man sells an item at 20% loss for ₹800. Cost price?",options:["900","950","1000","1100"],ans:"1000"},
-{q:"If SP of 15 items = CP of 20 items, profit %?",options:["25%","33.33%","20%","40%"],ans:"33.33%"},
-{q:"Marked price ₹500, discount 20%, profit 25%. Cost price?",options:["300","320","350","400"],ans:"320"},
-{q:"A trader gives 2 successive discounts of 10% and 20%. Total discount?",options:["28%","30%","32%","25%"],ans:"28%"},
-{q:"An article is sold at 25% profit. If CP increases by 20% and SP remains same, new profit %?",options:["4.16%","5%","6%","8%"],ans:"4.16%"},
-{q:"A is B’s brother, C is B’s mother, D is C’s father. How is D related to A?",options:["Father","Grandfather","Uncle","Brother"],ans:"Grandfather"},
-{q:"P is Q’s sister, R is Q’s mother, S is R’s father. How is S related to P?",options:["Father","Grandfather","Uncle","Brother"],ans:"Grandfather"},
-{q:"A man introduces a woman as 'She is the wife of my only son’s mother'. Who is the woman?",options:["Mother","Sister","Wife","Daughter"],ans:"Wife"},
-{q:"X is the son of Y. Y is the sister of Z. How is Z related to X?",options:["Uncle/Aunt","Father","Grandfather","Brother"],ans:"Uncle/Aunt"},
-{q:"Pointing to a man, a woman says, 'His mother is the only daughter of my mother.' Who is the man?",options:["Brother","Son","Father","Uncle"],ans:"Son"},
-{q:"Sum of ages of father and son is 50. After 5 years, ratio becomes 3:2. Present age of son?",options:["15","20","25","10"],ans:"15"},
-{q:"A is twice as old as B. 5 years ago, A was 3 times B. Present age of A?",options:["20","25","30","35"],ans:"30"},
-{q:"Ratio of ages of A and B is 4:3. After 6 years, ratio becomes 5:4. Present age of A?",options:["24","20","18","16"],ans:"24"},
-{q:"Present ages of A and B are in ratio 5:3. After 8 years, ratio becomes 7:5. Present age of B?",options:["18","24","30","20"],ans:"24"},
-{q:"A father is 3 times as old as his son. After 10 years, he will be twice as old. Present age of son?",options:["10","12","15","20"],ans:"10"},
-{q:"A is 4 years older than B. B is twice as old as C. Sum of ages is 32. Age of C?",options:["6","8","10","12"],ans:"6"},
-{q:"A walks 10m north, then 5m east, then 10m south. How far from start?",options:["5m","10m","15m","20m"],ans:"5m"},
-{q:"A goes 20m east, then 15m north, then 20m west. Distance from start?",options:["10m","15m","20m","25m"],ans:"15m"},
-{q:"Ravi walks 5m south, 10m west, 5m north. Distance from start?",options:["5m","10m","15m","20m"],ans:"10m"},
-{q:"A walks 8m east, 6m south, 8m west, 2m north. Distance from start?",options:["2m","4m","6m","8m"],ans:"4m"},
-{q:"A man walks 10m north, then 10m east, then 5m south. How far and in which direction?",options:["15m NE","5m East","10m East","5m NE"],ans:"5m East"},
-{q:"Find next: 2, 6, 12, 20, 30, ?",options:["36","40","42","44"],ans:"42"},
-{q:"Find next: 3, 9, 27, 81, ?",options:["162","243","324","729"],ans:"243"},
-{q:"Find next: 5, 10, 20, 40, 80, ?",options:["120","140","160","160"],ans:"160"},
-{q:"Find next: 1, 4, 9, 16, 25, ?",options:["30","35","36","40"],ans:"36"},
-{q:"Find next: 11, 13, 17, 23, 31, ?",options:["37","39","41","43"],ans:"41"},
-{q:"Find next: 2, 5, 11, 23, 47, ?",options:["90","91","93","95"],ans:"95"},
-{q:"If cost price increases by 20% and selling price remains same, profit reduces by?",options:["20%","16.67%","25%","30%"],ans:"16.67%"}
+  {
+    q: "A trader marks his goods 40% above the cost price and allows successive discounts of 10% and 5%. What is his net profit percentage?",
+    options: ["15%", "19.7%", "20%", "18%"],
+    ans: "19.7%"
+  },
+  {
+    q: "A shopkeeper uses a faulty weight of 900g instead of 1kg and also gives a discount of 10%. What is his overall profit percentage?",
+    options: ["20%", "22.22%", "23.45%", "25%"],
+    ans: "23.45%"
+  },
+  {
+    q: "By selling 20 articles for ₹900, a man gains 25%. What is the cost price per article?",
+    options: ["₹30", "₹32", "₹36", "₹40"],
+    ans: "₹36"
+  },
+  {
+    q: "A dishonest dealer mixes two varieties of rice costing ₹40/kg and ₹60/kg in the ratio 3:2 and sells the mixture at ₹70/kg. What is his profit percentage?",
+    options: ["30%", "40%", "50%", "20%"],
+    ans: "40%"
+  },
+  {
+    q: "A trader gives a discount of 20% on marked price but still gains 25%. What is the marked price above cost price?",
+    options: ["50%", "56.25%", "60%", "45%"],
+    ans: "56.25%"
+  },
+  {
+    q: "A man buys an article at 20% discount on marked price and sells it at 10% above marked price. What is his profit percentage?",
+    options: ["37.5%", "30%", "25%", "32%"],
+    ans: "37.5%"
+  },
+  {
+    q: "The selling price of 12 items is equal to the cost price of 15 items. What is the profit percentage?",
+    options: ["20%", "25%", "30%", "15%"],
+    ans: "25%"
+  },
+  {
+    q: "A trader marks goods 50% above cost price and allows a discount such that he still gains 20%. What is the discount percentage?",
+    options: ["20%", "25%", "30%", "33.33%"],
+    ans: "20%"
+  },
+  {
+    q: "A person sells an article at 10% loss. If he had sold it for ₹60 more, he would have gained 20%. What is the cost price?",
+    options: ["₹150", "₹200", "₹180", "₹240"],
+    ans: "₹200"
+  },
+  {
+    q: "The profit earned by selling 15 items is equal to the selling price of 5 items. What is the profit percentage?",
+    options: ["50%", "33.33%", "40%", "25%"],
+    ans: "50%"
+  },
+
+  // BLOOD RELATIONS
+  {
+    q: "A is the brother of B. C is the father of A. D is the mother of C. E is the father of D. How is E related to B?",
+    options: ["Grandfather", "Uncle", "Father", "Brother"],
+    ans: "Grandfather"
+  },
+  {
+    q: "Pointing to a woman, Ravi says, 'She is the daughter of my grandfather’s only son.' How is the woman related to Ravi?",
+    options: ["Sister", "Cousin", "Aunt", "Mother"],
+    ans: "Sister"
+  },
+  {
+    q: "P is the son of Q. R is the sister of Q. S is the mother of R. How is S related to P?",
+    options: ["Aunt", "Grandmother", "Mother", "Sister"],
+    ans: "Grandmother"
+  },
+  {
+    q: "A says, 'B is my mother’s only son’s wife.' How is B related to A?",
+    options: ["Sister", "Wife", "Sister-in-law", "Aunt"],
+    ans: "Sister-in-law"
+  },
+  {
+    q: "If A + B means A is father of B, A – B means A is wife of B, and A × B means A is brother of B, what is the relation of P to R in P × Q – R?",
+    options: ["Brother", "Son", "Father", "Uncle"],
+    ans: "Uncle"
+  },
+  {
+    q: "X is the brother of Y. Y is the mother of Z. How is X related to Z?",
+    options: ["Uncle", "Brother", "Father", "Grandfather"],
+    ans: "Uncle"
+  },
+  {
+    q: "Introducing a man, a woman says: 'He is the only son of my mother’s mother.' How is the man related to the woman?",
+    options: ["Uncle", "Father", "Brother", "Grandfather"],
+    ans: "Father"
+  },
+  {
+    q: "A is the father of B but B is not his son. How is that possible?",
+    options: ["B is daughter", "B is adopted", "B is cousin", "B is sister"],
+    ans: "B is daughter"
+  },
+  {
+    q: "M is the sister of N. N is the brother of O. O is the father of P. How is M related to P?",
+    options: ["Aunt", "Sister", "Grandmother", "Cousin"],
+    ans: "Aunt"
+  },
+  {
+    q: "Pointing to a photo, Raj says, 'He is the son of my father’s only daughter.' Who is in the photo?",
+    options: ["Son", "Nephew", "Brother", "Cousin"],
+    ans: "Son"
+  },
+
+  // AGE
+  {
+    q: "The ratio of ages of A and B is 3:5. After 10 years, the ratio becomes 5:7. What are their present ages?",
+    options: ["15 & 25", "18 & 30", "12 & 20", "20 & 30"],
+    ans: "18 & 30"
+  },
+  {
+    q: "A father is 3 times as old as his son. After 10 years, he will be twice as old. What are their present ages?",
+    options: ["15 & 45", "10 & 30", "20 & 60", "12 & 36"],
+    ans: "10 & 30"
+  },
+  {
+    q: "The sum of ages of A and B is 50. Ten years ago, A was twice B’s age. Find their present ages.",
+    options: ["30 & 20", "35 & 15", "40 & 10", "25 & 25"],
+    ans: "30 & 20"
+  },
+  {
+    q: "A is twice as old as B. Five years ago, A was three times B. Find present ages.",
+    options: ["20 & 10", "30 & 15", "25 & 12", "24 & 12"],
+    ans: "24 & 12"
+  },
+  {
+    q: "The ratio of ages of A:B:C is 2:3:4. After 5 years, their total age becomes 72. Find present ages.",
+    options: ["10, 15, 20", "12, 18, 24", "8, 12, 16", "15, 20, 25"],
+    ans: "10, 15, 20"
+  },
+  {
+    q: "The present age of a father is 4 times his son. After 20 years, he will be twice. Find their ages.",
+    options: ["20 & 80", "15 & 60", "25 & 100", "10 & 40"],
+    ans: "10 & 40"
+  },
+  {
+    q: "The difference of ages of two persons is 10 years. After 5 years, their ratio is 3:4. Find their present ages.",
+    options: ["15 & 25", "20 & 30", "18 & 28", "12 & 22"],
+    ans: "18 & 28"
+  },
+  {
+    q: "A’s age is 5 times B. After 15 years, A will be twice B. Find present ages.",
+    options: ["15 & 3", "20 & 4", "25 & 5", "30 & 6"],
+    ans: "20 & 4"
+  },
+  {
+    q: "The ratio of ages is 4:7. Their sum after 10 years is 88. Find present ages.",
+    options: ["18 & 28", "20 & 35", "16 & 28", "24 & 42"],
+    ans: "24 & 42"
+  },
+  {
+    q: "A is older than B by 6 years. After 6 years, A will be twice B. Find their present ages.",
+    options: ["18 & 12", "24 & 18", "12 & 6", "20 & 14"],
+    ans: "18 & 12"
+  },
+
+  // DIRECTION
+  {
+    q: "A walks 10m north, then 5m east, then 10m south. How far is he from the starting point?",
+    options: ["5m", "10m", "15m", "0"],
+    ans: "5m"
+  },
+  {
+    q: "A person walks 20m north, then 15m east, then 20m south, then 15m west. Where is he now?",
+    options: ["Same point", "5m east", "10m north", "5m south"],
+    ans: "Same point"
+  },
+  {
+    q: "A walks 10m east, then turns right and walks 5m, then turns left and walks 10m. Find distance from start.",
+    options: ["10m", "15m", "20m", "5m"],
+    ans: "15m"
+  },
+  {
+    q: "A goes 30m north, then 40m east, then 30m south. Find final distance and direction.",
+    options: ["40m east", "30m north", "50m east", "20m south"],
+    ans: "40m east"
+  },
+  {
+    q: "A walks 5m south, then 10m west, then 5m north, then 10m east. Final position?",
+    options: ["Starting point", "10m west", "5m south", "5m north"],
+    ans: "Starting point"
+  },
+  {
+    q: "A walks 10m north, 10m east, 10m south, 10m west. Final position?",
+    options: ["Starting point", "10m east", "10m north", "5m south"],
+    ans: "Starting point"
+  },
+  {
+    q: "A goes 25m north, 15m east, 10m south. Shortest distance from start?",
+    options: ["30m", "25m", "20m", "15m"],
+    ans: "20m"
+  },
+  {
+    q: "A moves 10m east, turns left, moves 5m, turns left, moves 10m. Final position?",
+    options: ["Starting point", "5m south", "10m east", "5m north"],
+    ans: "Starting point"
+  },
+  {
+    q: "A walks 12m north, 5m east, 12m south, 5m west. Displacement?",
+    options: ["0", "5m", "10m", "12m"],
+    ans: "0"
+  },
+  {
+    q: "A moves in a square of side 10m. Final position?",
+    options: ["Starting point", "10m north", "10m east", "5m south"],
+    ans: "Starting point"
+  },
+
+  // NUMBER SERIES
+  {
+    q: "Find the next term: 2, 6, 7, 21, 22, 66, ?",
+    options: ["67", "68", "69", "70"],
+    ans: "69"
+  },
+  {
+    q: "Find the missing term: 3, 9, 27, 81, ?, 729",
+    options: ["162", "243", "324", "486"],
+    ans: "243"
+  },
+  {
+    q: "Find the next term: 5, 6, 9, 16, 27, ?",
+    options: ["36", "42", "45", "48"],
+    ans: "45"
+  },
+  {
+    q: "Find the next term: 2, 5, 10, 17, 26, ?",
+    options: ["35", "36", "37", "38"],
+    ans: "37"
+  },
+  {
+    q: "Find the missing term: 7, 14, 28, 56, ?, 224",
+    options: ["100", "112", "128", "140"],
+    ans: "112"
+  },
+  {
+    q: "Find the missing term: 1, 4, 9, 16, 25, ?, 49",
+    options: ["30", "36", "40", "42"],
+    ans: "36"
+  },
+  {
+    q: "Find the next term: 3, 5, 11, 21, 43, ?",
+    options: ["63", "65", "85", "87"],
+    ans: "87"
+  },
+  {
+    q: "Find the next term: 8, 6, 9, 23, 87, ?",
+    options: ["300", "350", "400", "450"],
+    ans: "450"
+  },
+  {
+    q: "Find the next term: 2, 3, 5, 9, 17, ?",
+    options: ["31", "33", "35", "37"],
+    ans: "33"
+  },
+  {
+    q: "Find the next term: 11, 13, 17, 19, 23, ?",
+    options: ["25", "27", "29", "31"],
+    ans: "29"
+  }
 ];
 
 let current=0;
