@@ -6,7 +6,938 @@
 
 <style>
 body{
+font-family:Segoe UI;<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Math Quiz</title>
+
+<style>
+body{
 font-family:Segoe UI;
+background:#eef2f7;
+display:flex;
+justify-content:center;
+padding:30px;
+}
+
+#startScreen{
+width:100%;
+display:flex;
+justify-content:center;
+margin-top:100px;
+}
+
+.start-box{
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.wrapper{
+display:flex;
+gap:30px;
+display:none;
+}
+
+.container{
+background:white;
+width:700px;
+padding:30px;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+}
+
+.score-panel{
+width:220px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+display:none;
+}
+
+.score-box{
+margin:10px 0;
+padding:8px;
+background:#f1f1f1;
+border-radius:5px;
+}
+
+h1{text-align:center;color:#4a90e2;}
+.question{font-size:20px;margin:20px 0;}
+
+.options{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.option{
+padding:12px;
+background:#f1f1f1;
+border-radius:6px;
+cursor:pointer;
+border:2px solid transparent;
+}
+
+.option.selected{
+border:2px solid #4a90e2;
+background:#ebf5fb;
+}
+
+.option.correct{
+border:2px solid #27ae60;
+background:#eafaf1;
+}
+
+.option.wrong{
+border:2px solid #c0392b;
+background:#fdecea;
+}
+
+.controls{
+margin-top:20px;
+display:flex;
+justify-content:space-between;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+color:white;
+}
+
+.prev{background:#7f8c8d;}
+.next{background:#4a90e2;}
+.submit{background:#27ae60;}
+
+.nav-grid{
+display:grid;
+grid-template-columns:repeat(10,1fr);
+gap:10px;
+margin-top:30px;
+}
+
+.nav-box{
+padding:10px;
+text-align:center;
+border:1px solid #ccc;
+cursor:pointer;
+background:white;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){
+emailjs.init("VS2zZjRXbOFQt68fQ");
+})();
+</script>
+
+</head>
+
+<body>
+
+<div id="startScreen">
+<div class="start-box">
+<h2>Enter Your Email</h2>
+<input type="email" id="userEmail" placeholder="Enter email" style="padding:10px;width:250px;">
+<br><br>
+<button onclick="startQuiz()" style="background:#4a90e2;">Start Quiz</button>
+</div>
+</div>
+
+<div class="wrapper">
+
+<div class="container">
+<h1>Math Quiz       <span id="timer"></span></h1>
+<div id="question"></div>
+<div class="options" id="options"></div>
+
+<div class="controls">
+<button class="prev" id="prevBtn" onclick="prevQuestion()">Previous</button>
+<button class="next" id="nextBtn" onclick="nextQuestion()">Next</button>
+<button class="submit" id="submitBtn" onclick="submitQuiz()">Submit</button>
+</div>
+
+<div class="nav-grid" id="navGrid"></div>
+</div>
+
+<div class="score-panel" id="scorePanel">
+<h3>Score Panel</h3>
+<div class="score-box">Total: <span id="totalQ"></span></div>
+<div class="score-box">Attempted: <span id="attemptedQ"></span></div>
+<div class="score-box">Correct: <span id="correctQ"></span></div>
+<div class="score-box">Wrong: <span id="wrongQ"></span></div>
+<div class="score-box">Score %: <span id="percent"></span></div>
+</div>
+
+</div>
+
+<script>
+    
+
+let userEmail="";
+
+function startQuiz(){
+let email=document.getElementById("userEmail").value;
+if(email===""){ alert("Enter email"); return; }
+
+userEmail=email;
+document.getElementById("startScreen").style.display="none";
+document.querySelector(".wrapper").style.display="flex";
+
+init();
+}
+
+/* 🔴 YOUR ORIGINAL QUESTIONS (UNCHANGED) */
+// const questions = [
+//   {
+//     q: "A trader marks his goods 40% above the cost price and allows successive discounts of 10% and 5%. What is his net profit percentage?",
+//     options: ["15%", "19.7%", "20%", "18%"],
+//     ans: "19.7%"
+//   },
+//   {
+//     q: "A shopkeeper uses a faulty weight of 900g instead of 1kg and also gives a discount of 10%. What is his overall profit percentage?",
+//     options: ["20%", "22.22%", "23.45%", "25%"],
+//     ans: "23.45%"
+//   },
+//   {
+//     q: "By selling 20 articles for ₹900, a man gains 25%. What is the cost price per article?",
+//     options: ["₹30", "₹32", "₹36", "₹40"],
+//     ans: "₹36"
+//   },
+//   {
+//     q: "A dishonest dealer mixes two varieties of rice costing ₹40/kg and ₹60/kg in the ratio 3:2 and sells the mixture at ₹70/kg. What is his profit percentage?",
+//     options: ["30%", "40%", "50%", "20%"],
+//     ans: "40%"
+//   },
+//   {
+//     q: "A trader gives a discount of 20% on marked price but still gains 25%. What is the marked price above cost price?",
+//     options: ["50%", "56.25%", "60%", "45%"],
+//     ans: "56.25%"
+//   },
+//   {
+//     q: "A man buys an article at 20% discount on marked price and sells it at 10% above marked price. What is his profit percentage?",
+//     options: ["37.5%", "30%", "25%", "32%"],
+//     ans: "37.5%"
+//   },
+//   {
+//     q: "The selling price of 12 items is equal to the cost price of 15 items. What is the profit percentage?",
+//     options: ["20%", "25%", "30%", "15%"],
+//     ans: "25%"
+//   },
+//   {
+//     q: "A trader marks goods 50% above cost price and allows a discount such that he still gains 20%. What is the discount percentage?",
+//     options: ["20%", "25%", "30%", "33.33%"],
+//     ans: "20%"
+//   },
+//   {
+//     q: "A person sells an article at 10% loss. If he had sold it for ₹60 more, he would have gained 20%. What is the cost price?",
+//     options: ["₹150", "₹200", "₹180", "₹240"],
+//     ans: "₹200"
+//   },
+//   {
+//     q: "The profit earned by selling 15 items is equal to the selling price of 5 items. What is the profit percentage?",
+//     options: ["50%", "33.33%", "40%", "25%"],
+//     ans: "50%"
+//   },
+
+//   // BLOOD RELATIONS
+//   {
+//     q: "A is the brother of B. C is the father of A. D is the mother of C. E is the father of D. How is E related to B?",
+//     options: ["Grandfather", "Uncle", "Father", "Brother"],
+//     ans: "Grandfather"
+//   },
+//   {
+//     q: "Pointing to a woman, Ravi says, 'She is the daughter of my grandfather’s only son.' How is the woman related to Ravi?",
+//     options: ["Sister", "Cousin", "Aunt", "Mother"],
+//     ans: "Sister"
+//   },
+//   {
+//     q: "P is the son of Q. R is the sister of Q. S is the mother of R. How is S related to P?",
+//     options: ["Aunt", "Grandmother", "Mother", "Sister"],
+//     ans: "Grandmother"
+//   },
+//   {
+//     q: "A says, 'B is my mother’s only son’s wife.' How is B related to A?",
+//     options: ["Sister", "Wife", "Sister-in-law", "Aunt"],
+//     ans: "Sister-in-law"
+//   },
+//   {
+//     q: "If A + B means A is father of B, A – B means A is wife of B, and A × B means A is brother of B, what is the relation of P to R in P × Q – R?",
+//     options: ["Brother", "Son", "Father", "Uncle"],
+//     ans: "Uncle"
+//   },
+//   {
+//     q: "X is the brother of Y. Y is the mother of Z. How is X related to Z?",
+//     options: ["Uncle", "Brother", "Father", "Grandfather"],
+//     ans: "Uncle"
+//   },
+//   {
+//     q: "Introducing a man, a woman says: 'He is the only son of my mother’s mother.' How is the man related to the woman?",
+//     options: ["Uncle", "Father", "Brother", "Grandfather"],
+//     ans: "Father"
+//   },
+//   {
+//     q: "A is the father of B but B is not his son. How is that possible?",
+//     options: ["B is daughter", "B is adopted", "B is cousin", "B is sister"],
+//     ans: "B is daughter"
+//   },
+//   {
+//     q: "M is the sister of N. N is the brother of O. O is the father of P. How is M related to P?",
+//     options: ["Aunt", "Sister", "Grandmother", "Cousin"],
+//     ans: "Aunt"
+//   },
+//   {
+//     q: "Pointing to a photo, Raj says, 'He is the son of my father’s only daughter.' Who is in the photo?",
+//     options: ["Son", "Nephew", "Brother", "Cousin"],
+//     ans: "Son"
+//   },
+
+//   // AGE
+//   {
+//     q: "The ratio of ages of A and B is 3:5. After 10 years, the ratio becomes 5:7. What are their present ages?",
+//     options: ["15 & 25", "18 & 30", "12 & 20", "20 & 30"],
+//     ans: "18 & 30"
+//   },
+//   {
+//     q: "A father is 3 times as old as his son. After 10 years, he will be twice as old. What are their present ages?",
+//     options: ["15 & 45", "10 & 30", "20 & 60", "12 & 36"],
+//     ans: "10 & 30"
+//   },
+//   {
+//     q: "The sum of ages of A and B is 50. Ten years ago, A was twice B’s age. Find their present ages.",
+//     options: ["30 & 20", "35 & 15", "40 & 10", "25 & 25"],
+//     ans: "30 & 20"
+//   },
+//   {
+//     q: "A is twice as old as B. Five years ago, A was three times B. Find present ages.",
+//     options: ["20 & 10", "30 & 15", "25 & 12", "24 & 12"],
+//     ans: "24 & 12"
+//   },
+//   {
+//     q: "The ratio of ages of A:B:C is 2:3:4. After 5 years, their total age becomes 72. Find present ages.",
+//     options: ["10, 15, 20", "12, 18, 24", "8, 12, 16", "15, 20, 25"],
+//     ans: "10, 15, 20"
+//   },
+//   {
+//     q: "The present age of a father is 4 times his son. After 20 years, he will be twice. Find their ages.",
+//     options: ["20 & 80", "15 & 60", "25 & 100", "10 & 40"],
+//     ans: "10 & 40"
+//   },
+//   {
+//     q: "The difference of ages of two persons is 10 years. After 5 years, their ratio is 3:4. Find their present ages.",
+//     options: ["15 & 25", "20 & 30", "18 & 28", "12 & 22"],
+//     ans: "18 & 28"
+//   },
+//   {
+//     q: "A’s age is 5 times B. After 15 years, A will be twice B. Find present ages.",
+//     options: ["15 & 3", "20 & 4", "25 & 5", "30 & 6"],
+//     ans: "20 & 4"
+//   },
+//   {
+//     q: "The ratio of ages is 4:7. Their sum after 10 years is 88. Find present ages.",
+//     options: ["18 & 28", "20 & 35", "16 & 28", "24 & 42"],
+//     ans: "24 & 42"
+//   },
+//   {
+//     q: "A is older than B by 6 years. After 6 years, A will be twice B. Find their present ages.",
+//     options: ["18 & 12", "24 & 18", "12 & 6", "20 & 14"],
+//     ans: "18 & 12"
+//   },
+
+//   // DIRECTION
+//   {
+//     q: "A walks 10m north, then 5m east, then 10m south. How far is he from the starting point?",
+//     options: ["5m", "10m", "15m", "0"],
+//     ans: "5m"
+//   },
+//   {
+//     q: "A person walks 20m north, then 15m east, then 20m south, then 15m west. Where is he now?",
+//     options: ["Same point", "5m east", "10m north", "5m south"],
+//     ans: "Same point"
+//   },
+//   {
+//     q: "A walks 10m east, then turns right and walks 5m, then turns left and walks 10m. Find distance from start.",
+//     options: ["10m", "15m", "20m", "5m"],
+//     ans: "15m"
+//   },
+//   {
+//     q: "A goes 30m north, then 40m east, then 30m south. Find final distance and direction.",
+//     options: ["40m east", "30m north", "50m east", "20m south"],
+//     ans: "40m east"
+//   },
+//   {
+//     q: "A walks 5m south, then 10m west, then 5m north, then 10m east. Final position?",
+//     options: ["Starting point", "10m west", "5m south", "5m north"],
+//     ans: "Starting point"
+//   },
+//   {
+//     q: "A walks 10m north, 10m east, 10m south, 10m west. Final position?",
+//     options: ["Starting point", "10m east", "10m north", "5m south"],
+//     ans: "Starting point"
+//   },
+//   {
+//     q: "A goes 25m north, 15m east, 10m south. Shortest distance from start?",
+//     options: ["30m", "25m", "20m", "15m"],
+//     ans: "20m"
+//   },
+//   {
+//     q: "A moves 10m east, turns left, moves 5m, turns left, moves 10m. Final position?",
+//     options: ["Starting point", "5m south", "10m east", "5m north"],
+//     ans: "Starting point"
+//   },
+//   {
+//     q: "A walks 12m north, 5m east, 12m south, 5m west. Displacement?",
+//     options: ["0", "5m", "10m", "12m"],
+//     ans: "0"
+//   },
+//   {
+//     q: "A moves in a square of side 10m. Final position?",
+//     options: ["Starting point", "10m north", "10m east", "5m south"],
+//     ans: "Starting point"
+//   },
+
+//   // NUMBER SERIES
+//   {
+//     q: "Find the next term: 2, 6, 7, 21, 22, 66, ?",
+//     options: ["67", "68", "69", "70"],
+//     ans: "69"
+//   },
+//   {
+//     q: "Find the missing term: 3, 9, 27, 81, ?, 729",
+//     options: ["162", "243", "324", "486"],
+//     ans: "243"
+//   },
+//   {
+//     q: "Find the next term: 5, 6, 9, 16, 27, ?",
+//     options: ["36", "42", "45", "48"],
+//     ans: "45"
+//   },
+//   {
+//     q: "Find the next term: 2, 5, 10, 17, 26, ?",
+//     options: ["35", "36", "37", "38"],
+//     ans: "37"
+//   },
+//   {
+//     q: "Find the missing term: 7, 14, 28, 56, ?, 224",
+//     options: ["100", "112", "128", "140"],
+//     ans: "112"
+//   },
+//   {
+//     q: "Find the missing term: 1, 4, 9, 16, 25, ?, 49",
+//     options: ["30", "36", "40", "42"],
+//     ans: "36"
+//   },
+//   {
+//     q: "Find the next term: 3, 5, 11, 21, 43, ?",
+//     options: ["63", "65", "85", "87"],
+//     ans: "87"
+//   },
+//   {
+//     q: "Find the next term: 8, 6, 9, 23, 87, ?",
+//     options: ["300", "350", "400", "450"],
+//     ans: "450"
+//   },
+//   {
+//     q: "Find the next term: 2, 3, 5, 9, 17, ?",
+//     options: ["31", "33", "35", "37"],
+//     ans: "33"
+//   },
+//   {
+//     q: "Find the next term: 11, 13, 17, 19, 23, ?",
+//     options: ["25", "27", "29", "31"],
+//     ans: "29"
+//   }
+// ];
+  const questions = [
+
+  // ADVANCED PROFIT & LOSS
+  {
+    q: "A trader marks goods 80% above cost and gives two successive discounts of 20% and 10%. Find profit/loss %. ",
+    options: ["29.6% profit", "28% profit", "30% profit", "32% profit"],
+    ans: "29.6% profit"
+  },
+  {
+    q: "A man sells two items at ₹1000 each. On one he gains 20% and on the other loses 20%. Overall result?",
+    options: ["No profit no loss", "Loss 4%", "Gain 4%", "Loss 2%"],
+    ans: "Loss 4%"
+  },
+
+  // TIME & WORK
+  {
+    q: "A can do work in 12 days, B in 18 days. They work together for 4 days, then A leaves. Remaining work by B?",
+    options: ["8 days", "10 days", "12 days", "9 days"],
+    ans: "8 days"
+  },
+  {
+    q: "If 6 men or 8 women can do a work in 10 days, how long will 3 men and 4 women take?",
+    options: ["20 days", "15 days", "10 days", "12 days"],
+    ans: "20 days"
+  },
+
+  // NUMBER SERIES HARD
+  {
+    q: "Find next: 4, 6, 12, 14, 28, 30, ?",
+    options: ["60", "58", "62", "64"],
+    ans: "60"
+  },
+  {
+    q: "Find next: 1, 2, 6, 24, 120, ?",
+    options: ["600", "720", "840", "960"],
+    ans: "720"
+  },
+
+  // CODING-DECODING
+  {
+    q: "If CAT = 24, DOG = 26, then BAT = ?",
+    options: ["21", "22", "23", "24"],
+    ans: "23"
+  },
+  {
+    q: "In a code, COMPUTER = RFUVQNPC. What is MOBILE?",
+    options: ["NQDKGN", "NQDKGN", "NQDKFN", "NQDLGN"],
+    ans: "NQDKGN"
+  },
+
+  // BLOOD RELATION HARD
+  {
+    q: "A is B’s brother. B is C’s mother. D is C’s father. How is A related to D?",
+    options: ["Brother", "Brother-in-law", "Cousin", "Uncle"],
+    ans: "Brother-in-law"
+  },
+
+  // AGE HARD
+  {
+    q: "Ratio of ages A:B = 5:7. After 10 years, difference = 14. Find A.",
+    options: ["25", "30", "35", "40"],
+    ans: "35"
+  },
+
+  // DIRECTION HARD
+  {
+    q: "A walks 10m north, 20m east, 10m south, 5m west, 5m north. Distance from start?",
+    options: ["15m", "20m", "25m", "10m"],
+    ans: "20m"
+  },
+
+  // MATHEMATICAL LOGIC
+  {
+    q: "If x + 1/x = 5, find x² + 1/x²",
+    options: ["21", "23", "25", "27"],
+    ans: "23"
+  },
+
+  // PERMUTATION
+  {
+    q: "How many ways can letters of 'LEVEL' be arranged?",
+    options: ["60", "120", "30", "20"],
+    ans: "30"
+  },
+
+  // PROBABILITY
+  {
+    q: "Probability of getting exactly 2 heads in 3 coin tosses?",
+    options: ["3/8", "1/2", "1/4", "2/3"],
+    ans: "3/8"
+  },
+
+  // NUMBER PUZZLE
+  {
+    q: "Find missing: 3, 9, 27, 81, ?, 729",
+    options: ["162", "243", "324", "486"],
+    ans: "243"
+  },
+
+  // ADVANCED SERIES
+  {
+    q: "2, 3, 5, 9, 17, 33, ?",
+    options: ["65", "66", "67", "68"],
+    ans: "65"
+  },
+
+  // CLOCK
+  {
+    q: "Angle between hands at 3:15?",
+    options: ["7.5°", "0°", "15°", "30°"],
+    ans: "7.5°"
+  },
+
+  // SPEED DISTANCE
+  {
+    q: "A car travels 60 km at 30 km/h and 60 km at 60 km/h. Avg speed?",
+    options: ["40", "45", "48", "50"],
+    ans: "40"
+  },
+
+  // TRAIN
+  {
+    q: "Train 100m crosses pole in 5 sec. Speed?",
+    options: ["72 km/h", "60 km/h", "80 km/h", "90 km/h"],
+    ans: "72 km/h"
+  },
+
+  // SIMPLE INTEREST
+  {
+    q: "SI on ₹5000 at 10% for 2 years?",
+    options: ["1000", "900", "800", "1100"],
+    ans: "1000"
+  },
+
+  // COMPOUND INTEREST
+  {
+    q: "CI on ₹1000 at 10% for 2 years?",
+    options: ["210", "200", "220", "215"],
+    ans: "210"
+  },
+
+  // DATA INTERPRETATION LOGIC
+  {
+    q: "If 20% of a number is 40, find number",
+    options: ["100", "150", "200", "250"],
+    ans: "200"
+  },
+
+  // EXTRA HARD SERIES (continue)
+  {
+    q: "1, 1, 2, 3, 5, 8, 13, ?",
+    options: ["20", "21", "22", "23"],
+    ans: "21"
+  },
+  {
+    q: "11, 22, 44, 88, ?",
+    options: ["166", "176", "178", "198"],
+    ans: "176"
+  },
+  {
+    q: "7, 49, 343, ?",
+    options: ["1201", "2401", "1001", "2001"],
+    ans: "2401"
+  },
+  {
+    q: "Find: 5² + 6² + 7²",
+    options: ["110", "100", "120", "130"],
+    ans: "110"
+  },
+  {
+    q: "If log(2) + log(3) = ?",
+    options: ["log5", "log6", "log1", "log9"],
+    ans: "log6"
+  },
+  {
+    q: "If A=1, B=2... Z=26, value of CODE?",
+    options: ["27", "30", "27", "29"],
+    ans: "27"
+  },
+  {
+    q: "Find missing: 2, 6, 12, 20, 30, ?",
+    options: ["40", "42", "44", "46"],
+    ans: "42"
+  },
+  {
+    q: "Find next: 1, 4, 9, 16, 25, ?",
+    options: ["30", "35", "36", "40"],
+    ans: "36"
+  },
+  {
+    q: "LCM of 12, 15, 20?",
+    options: ["60", "120", "180", "240"],
+    ans: "60"
+  },
+  {
+    q: "HCF of 36 and 48?",
+    options: ["6", "8", "12", "18"],
+    ans: "12"
+  },
+
+  // LOGIC
+  {
+    q: "Odd one out: 2, 3, 5, 9, 7",
+    options: ["2", "3", "5", "9"],
+    ans: "9"
+  },
+  {
+    q: "Mirror of 3:15?",
+    options: ["8:45", "9:45", "6:45", "7:45"],
+    ans: "8:45"
+  },
+
+  // PUZZLE
+  {
+    q: "If today is Monday, what day after 100 days?",
+    options: ["Wednesday", "Thursday", "Friday", "Saturday"],
+    ans: "Wednesday"
+  },
+
+  // MIX HARD
+  {
+    q: "√(144) + √(121) = ?",
+    options: ["22", "23", "24", "25"],
+    ans: "23"
+  },
+  {
+    q: "Cube root of 2744?",
+    options: ["12", "14", "16", "18"],
+    ans: "14"
+  },
+  {
+    q: "15% of 200?",
+    options: ["20", "25", "30", "35"],
+    ans: "30"
+  },
+  {
+    q: "If 5x = 20, find x",
+    options: ["2", "3", "4", "5"],
+    ans: "4"
+  },
+  {
+    q: "2^5 = ?",
+    options: ["16", "32", "64", "128"],
+    ans: "32"
+  },
+  {
+    q: "Find: 10! / 9!",
+    options: ["10", "9", "8", "7"],
+    ans: "10"
+  },
+  {
+    q: "Binary of 5?",
+    options: ["101", "110", "111", "100"],
+    ans: "101"
+  },
+  {
+    q: "Decimal of 1010?",
+    options: ["8", "10", "12", "14"],
+    ans: "10"
+  },
+  {
+    q: "Next prime after 29?",
+    options: ["30", "31", "32", "33"],
+    ans: "31"
+  },
+  {
+    q: "Sum of first 10 natural numbers?",
+    options: ["50", "55", "60", "65"],
+    ans: "55"
+  },
+  {
+    q: "If x² = 49, x = ?",
+    options: ["7", "-7", "±7", "14"],
+    ans: "±7"
+  },
+  {
+    q: "Area of square with side 10?",
+    options: ["100", "90", "80", "120"],
+    ans: "100"
+  },
+  {
+    q: "Perimeter of rectangle 10x5?",
+    options: ["20", "25", "30", "40"],
+    ans: "30"
+  },
+  {
+    q: "Find: 100 ÷ 5 × 2",
+    options: ["40", "50", "60", "20"],
+    ans: "40"
+  },
+  {
+    q: "Find: 3³ + 4³",
+    options: ["91", "100", "110", "120"],
+    ans: "91"
+  }
+];
+let totalTime = 0;
+let timerInterval = null;
+const timerElement = document.getElementById("timer");
+
+function startTimer() {
+    totalTime = Math.floor(1.5 * questions.length * 60);
+
+    function updateTimer() {
+        let minutes = Math.floor(totalTime / 60);
+        let seconds = totalTime % 60;
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        timerElement.innerText = minutes + ":" + seconds;
+
+        if (totalTime > 0) {
+            totalTime--;
+        } else {
+            clearInterval(timerInterval);
+
+            if (!submitted) {
+                submitQuiz(); // ✅ AUTO SUBMIT
+                alert("Time's up! Quiz submitted.");
+            }
+        }
+    }
+
+    updateTimer();
+    timerInterval = setInterval(updateTimer, 1000);
+}
+
+let current=0;
+let answers=new Array(questions.length).fill(null);
+let submitted=false;
+
+const qText=document.getElementById("question");
+const optionsDiv=document.getElementById("options");
+const navGrid=document.getElementById("navGrid");
+
+function init(){
+document.getElementById("totalQ").innerText=questions.length;
+createNav();
+loadQuestion();
+startTimer();
+}
+
+function createNav(){
+questions.forEach((q,i)=>{
+const box=document.createElement("div");
+box.className="nav-box";
+box.innerText=i+1;
+box.id="nav"+i;
+box.onclick=()=>jump(i);
+navGrid.appendChild(box);
+});
+}
+
+function loadQuestion(){
+const q=questions[current];
+qText.innerText=(current+1)+". "+q.q;
+optionsDiv.innerHTML="";
+
+q.options.forEach((opt,i)=>{
+const btn=document.createElement("div");
+btn.className="option";
+let text=opt;
+
+if(submitted){
+if(opt===q.ans){
+btn.classList.add("correct");
+text+=" ✔";
+}
+if(answers[current]===i && opt!==q.ans){
+btn.classList.add("wrong");
+text+=" ✖";
+}
+}else{
+if(answers[current]===i){
+btn.classList.add("selected");
+}
+btn.onclick=()=>select(i);
+}
+
+btn.innerText=text;
+optionsDiv.appendChild(btn);
+});
+
+updateButtons();
+updateNav();
+}
+
+function select(i){
+answers[current]=i;
+loadQuestion();
+}
+
+function updateButtons(){
+prevBtn.disabled=(current===0);
+if(current===questions.length-1){
+nextBtn.style.display="none";
+submitBtn.style.display="inline-block";
+}else{
+nextBtn.style.display="inline-block";
+submitBtn.style.display="none";
+}
+}
+
+function updateNav(){
+questions.forEach((q,i)=>{
+const box=document.getElementById("nav"+i);
+
+if(i===current){
+box.style.border="2px solid #4a90e2";
+}else{
+box.style.border="1px solid #ccc";
+}
+
+if(!submitted){
+if(answers[i]!==null){
+box.style.background="black";
+box.style.color="white";
+}else{
+box.style.background="white";
+box.style.color="black";
+}
+}else{
+if(answers[i]===null){
+box.style.background="#bdc3c7";
+}
+else if(questions[i].options[answers[i]]===q.ans){
+box.style.background="#27ae60";
+}
+else{
+box.style.background="#c0392b";
+}
+box.style.color="white";
+}
+
+box.onclick=()=>jump(i);
+});
+}
+
+function nextQuestion(){ current++; loadQuestion(); }
+function prevQuestion(){ current--; loadQuestion(); }
+function jump(i){ current=i; loadQuestion(); }
+
+function submitQuiz(){
+
+submitted=true;
+document.getElementById("scorePanel").style.display="block";
+
+let attempted=0,correct=0,wrong=0;
+
+answers.forEach((a,i)=>{
+if(a!==null){
+attempted++;
+if(questions[i].options[a]===questions[i].ans){correct++;}
+else{wrong++;}
+}
+});
+
+let percent=Math.round((correct/questions.length)*100);
+
+attemptedQ.innerText=attempted;
+correctQ.innerText=correct;
+wrongQ.innerText=wrong;
+percent.innerText=percent+"%";
+
+loadQuestion();
+updateNav();
+
+/* EMAIL */
+emailjs.send("service_ux4v0sa","template_z4lof68",{
+to_email:userEmail,
+score:correct,
+total:questions.length,
+percentage:percent+"%"
+});
+startTimer();
+}
+
+</script>
+
+</body>
+</html>
 background:#eef2f7;
 display:flex;
 justify-content:center;
