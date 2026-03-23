@@ -1222,13 +1222,16 @@ function startTimer() {
     totalTime = Math.floor(1.5 * questions.length * 60);
 
     function updateTimer() {
-        let minutes = Math.floor(totalTime / 60);
+        let hours = Math.floor(totalTime / 3600);
+        let minutes = Math.floor((totalTime % 3600) / 60);
         let seconds = totalTime % 60;
 
+        // Format to 2 digits
+        hours = hours < 10 ? "0" + hours : hours;
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        timerElement.innerText = minutes + ":" + seconds;
+        timerElement.innerText = hours + ":" + minutes + ":" + seconds;
 
         if (totalTime > 0) {
             totalTime--;
@@ -1236,7 +1239,7 @@ function startTimer() {
             clearInterval(timerInterval);
 
             if (!submitted) {
-                submitQuiz(); // ✅ AUTO SUBMIT
+                submitQuiz(); // AUTO SUBMIT
                 alert("Time's up! Quiz submitted.");
             }
         }
@@ -1245,7 +1248,6 @@ function startTimer() {
     updateTimer();
     timerInterval = setInterval(updateTimer, 1000);
 }
-
 let current=0;
 let answers=new Array(questions.length).fill(null);
 let submitted=false;
