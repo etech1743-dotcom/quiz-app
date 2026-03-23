@@ -744,9 +744,9 @@ init();
 //     ans: "91"
 //   }
 // ];
-    const questions = [
+ /*   const questions = [
 
-/* ================= PROFIT & LOSS (10) ================= */
+
 
 {
 q: "A trader marks goods 100% above cost and gives two successive discounts of 20% and 25%. Find profit %. ",
@@ -799,7 +799,7 @@ options: ["40%", "44%", "50%", "60%"],
 ans: "50%"
 },
 
-/* ================= BLOOD RELATIONS (10) ================= */
+/* ================= BLOOD RELATIONS (10) ================= *
 
 {
 q: "A is B’s brother. C is A’s mother. D is C’s father. How is D related to B?",
@@ -852,7 +852,7 @@ options: ["Mother", "Sister", "Wife", "Aunt"],
 ans: "Wife"
 },
 
-/* ================= AGE (10) ================= */
+/* ================= AGE (10) ================= *
 
 {
 q: "A:B = 4:5, B:C = 2:3. If C = 30, find A.",
@@ -905,7 +905,7 @@ options: ["30", "35", "40", "45"],
 ans: "35"
 },
 
-/* ================= DIRECTION (10) ================= */
+/* ================= DIRECTION (10) ================= *
 
 {
 q: "A walks 20m N, 15m E, 20m S, 5m W. Distance?",
@@ -958,7 +958,7 @@ options: ["20m", "25m", "30m", "35m"],
 ans: "20m"
 },
 
-/* ================= NUMBER SERIES (10) ================= */
+/* ================= NUMBER SERIES (10) ================= *
 
 {
 q: "2, 6, 7, 21, 22, 66, ?",
@@ -1011,6 +1011,208 @@ options: ["25", "27", "29", "31"],
 ans: "29"
 }
 
+];*/
+    const questions = [
+  { q: "Q1. A man bought an old typewriter for ₹1200 and spent ₹200 on repair. He sold it for ₹1680. Find his profit %.", options: ["15%", "18%", "20%", "25%"], ans: "20%" },
+  { q: "Q2. A man buys 12 articles for ₹12 and sells them at ₹1.25 per article. His gain % is:", options: ["20%", "22%", "25%", "30%"], ans: "25%" },
+  { q: "Q3. If the selling price of an article is 8/5 of its CP, profit % is:", options: ["40%", "50%", "60%", "80%"], ans: "60%" },
+  { q: "Q4. Find CP if SP = ₹630 and profit = 12.5%", options: ["₹540", "₹560", "₹580", "₹600"], ans: "₹560" },
+  { q: "Q5. Find CP if SP = ₹1470 and profit = 16 2/3%", options: ["₹1200", "₹1250", "₹1260", "₹1300"], ans: "₹1260" },
+  { q: "Q6. A man sells goods at 8 1/3% profit. Find CP if SP = ₹65780", options: ["₹60000", "₹60500", "₹60750", "₹61000"], ans: "₹60750" },
+  { q: "Q7. An item is sold for ₹7130 at 15% profit. Find CP.", options: ["₹6100", "₹6200", "₹6300", "₹6400"], ans: "₹6200" },
+  { q: "Q8. Profit = 120%. If CP increases by 10% and SP same, new profit %?", options: ["90%", "95%", "100%", "110%"], ans: "100%" },
+  { q: "Q9. Profit = 150%. If CP increases by 25%, new profit %?", options: ["80%", "90%", "100%", "110%"], ans: "100%" },
+  { q: "Q10. A shopkeeper gains 16 2/3% on SP. Find actual profit % on CP.", options: ["15%", "18%", "20%", "25%"], ans: "20%" },
+
+  { q: "Q11. A man sells goods at 25% loss on SP. Find actual loss % on CP.", options: ["20%", "22%", "25%", "33.33%"], ans: "33.33%" },
+  { q: "Q12. A man sells goods at 8 1/3% profit on SP. Find actual profit %.", options: ["8%", "9%", "10%", "12%"], ans: "9%" },
+  { q: "Q13. A merchant buys an article for ₹27 and sells it at a profit of 10% of SP. Find SP.", options: ["₹29", "₹30", "₹31", "₹32"], ans: "₹30" },
+  { q: "Q14. A radio is sold for ₹990 at 10% profit. If sold at ₹890, find profit/loss.", options: ["₹10 profit", "₹10 loss", "₹20 loss", "₹30 loss"], ans: "₹10 loss" },
+  { q: "Q15. A radio is sold for ₹360 at 20% profit. If sold at ₹390, find profit/loss.", options: ["₹60 profit", "₹70 profit", "₹80 profit", "₹90 profit"], ans: "₹90 profit" },
+
+  { q: "Q16. Ram’s sister is half the age of Ram. Ram is 4 years old today. When Ram will be 100 years old, what will be the age of his sister?", options: ["98", "88", "48", "50"], ans: "98" },
+  { q: "Q17. A got married 6 years ago. His present age is 1 1/4 times his age at marriage. If his son’s age is 1/10 of his age at that time, what is the age of his son?", options: ["2", "5", "3", "4"], ans: "2" },
+  { q: "Q18. The present age ratio of A and B is 6 : 7. After 6 years, A will be 48 years. What is the present age of B?", options: ["59", "49", "39", "48"], ans: "49" },
+  { q: "Q19. The present age ratio of A and B is 2 : 3. 8 years ago, A was 20 years old. What is the present age of B?", options: ["42", "36", "48", "45"], ans: "42" },
+  { q: "Q20. The present age ratio of A and B is 3 : 4. 8 years ago B was 8 years old. What was the age of A 8 years ago?", options: ["5 years", "6 years", "2 years", "4 years"], ans: "4 years" },
+
+  { q: "Q21. After 5 years, the ratio of ages of A and B will be 7 : 8. If A is 30 years old today, what is the present age of B?", options: ["40 years", "35 years", "68 years", "78 years"], ans: "35 years" },
+  { q: "Q22. After 10 years, the age ratio of A and B will be 3 : 5. 5 years ago, A was 12 years old. What is B’s present age?", options: ["35 years", "30 years", "45 years", "40 years"], ans: "35 years" },
+  { q: "Q23. The present age ratio of A and B is 4 : 5. After 5 years, the sum of their ages will be 46 years. What are their present ages?", options: ["21 years, 25 years", "22 years, 35 years", "16 years, 20 years", "24 years, 30 years"], ans: "16 years, 20 years" },
+  { q: "Q24. 6 years ago, the sum of ages of A, B, C was 30 years. If their present age ratio is 1 : 2 : 3, what will be their ages after 10 years?", options: ["20, 24, 36", "18, 36, 24", "18, 26, 34", "26, 34, 18"], ans: "18, 26, 34" },
+  { q: "Q25. The present age ratio of A and B is 6 : 7. After 8 years, their age difference will be 10 years. What are their present ages?", options: ["60 years, 72 years", "60 years, 70 years", "62 years, 72 years", "60 years, 75 years"], ans: "60 years, 70 years" },
+
+  { q: "Q26. The present age ratio of A and B is 5 : 7. After 2 years, their age difference will be 12 years. What are their present ages?", options: ["35 years, 40 years", "36 years, 46 years", "32 years, 42 years", "30 years, 42 years"], ans: "30 years, 42 years" },
+  { q: "Q27. Sneha’s age is 1/6 of her father’s age. After 10 years, her father’s age will be twice the age of Vimal at that time. Vimal is 3 years younger than Ashok. If Ashok celebrated his 10th birthday 3 years ago, what is Sneha’s present age?", options: ["10 years", "12 years", "5 years", "13 years"], ans: "5 years" },
+
+  { q: "Q28. 10, 18, 28, 40, 54, 70, ?", options: ["85", "86", "87", "88"], ans: "88" },
+  { q: "Q29. 120, 99, 80, 63, 48, ?", options: ["35", "38", "39", "40"], ans: "35" },
+  { q: "Q30. 22, 24, 28, ?, 52, 84", options: ["36", "38", "42", "46"], ans: "36" },
+
+  { q: "Q31. 4832, 5840, 6848, ?", options: ["7815", "7846", "7856", "7887"], ans: "7846" },
+  { q: "Q32. 10, 100, 200, 310, ?", options: ["400", "410", "420", "430"], ans: "430" },
+  { q: "Q33. 0, 2, 8, 14, ?, 34", options: ["20", "23", "24", "25"], ans: "24" },
+
+  { q: "Q34. 28, 33, 31, 36, ?, 39", options: ["32", "34", "38", "40"], ans: "34" },
+  { q: "Q35. 125, 80, 45, 20, ?", options: ["5", "8", "10", "12"], ans: "5" },
+  { q: "Q36. 1, 5, 13, 25, 41, ?", options: ["51", "57", "61", "63"], ans: "61" },
+
+  { q: "Q37. 2, 15, 41, 80, ?", options: ["111", "120", "121", "132"], ans: "132" },
+  { q: "Q38. 6, 17, 39, 72, ?", options: ["83", "94", "116", "127"], ans: "116" },
+  { q: "Q39. 325, 259, 204, 160, 127, 105, ?", options: ["94", "96", "98", "100"], ans: "94" },
+
+  { q: "Q40. 1, 4, 10, 22, 46, ?", options: ["64", "86", "94", "122"], ans: "94" },
+{
+  q: "Q41. 0.5, 0.55, 0.65, 0.8, ?", options: ["0.9", "0.82", "1", "0.95"], ans: "1"
+},
+{
+  q: "Q42. 5, 6, 9, 15, ?, 40", options: ["21", "25", "27", "33"], ans: "25"
+},
+{
+  q: "Q43. 2, 3, 5, 7, 11, ?, 17", options: ["12", "13", "14", "15"], ans: "13"
+},
+{
+  q: "Q44. 4, 9, 25, ?, 121, 169, 289, 361", options: ["49", "64", "81", "87"], ans: "49"
+},
+{
+  q: "Q45. 1, 9, 25, 49, 81, ?", options: ["100", "112", "121", "144"], ans: "121"
+},
+{
+  q: "Q46. 1, 1, 4, 8, 9, 27, 16, ?", options: ["32", "64", "81", "256"], ans: "64"
+},
+{
+  q: "Q47. 4, 12, 36, 108, ?", options: ["144", "216", "304", "324"], ans: "216"
+},
+{
+  q: "Q48. 1, 1, 2, 6, 24, ?, 720", options: ["100", "104", "108", "120"], ans: "120"
+},
+{
+  q: "Q49. 240, ?, 120, 40, 10, 2", options: ["180", "240", "420", "480"], ans: "240"
+},
+{
+  q: "Q50. 4, 6, 9, 13½, ?", options: ["17½", "19", "20¼", "22¾"], ans: "17½"
+},
+
+{
+  q: "Q51. Pointing to a photograph of a boy, Suresh said, 'He is the son of the only son of my mother.' How is Suresh related to that boy?", options: ["Brother", "Uncle", "Cousin", "Father"], ans: "Brother"
+},
+{
+  q: "Q52. If A + B means A is the mother of B; A - B means A is the brother of B; A % B means A is the father of B and A x B means A is the sister of B, which of the following shows that P is the maternal uncle of Q?", options: ["Q - N + M x P", "P + S x N - Q", "P - M + N x Q", "Q - S % P"], ans: "P - M + N x Q"
+},
+{
+  q: "Q53. If A is the brother of B; B is the sister of C; and C is the father of D, how is D related to A?", options: ["Brother", "Sister", "Nephew", "Cannot be determined"], ans: "Cannot be determined"
+},
+{
+  q: "Q54. If A + B means A is the brother of B; A - B means A is the sister of B and A x B means A is the father of B. Which of the following means that C is the son of M?", options: ["M - N x C + F", "F - C + N x M", "N + M - F x C", "M x N - C + F"], ans: "M x N - C + F"
+},
+{
+  q: "Q55. Introducing a boy, a girl said, 'He is the son of the daughter of the father of my uncle.' How is the boy related to the girl?", options: ["Brother", "Nephew", "Uncle", "Son-in-law"], ans: "Brother"
+},
+{
+  q: "Q56. Pointing to a photograph, Lata says, 'He is the son of the only son of my grandfather.' How is the man in the photograph related to Lata?", options: ["Brother", "Uncle", "Cousin", "Data is inadequate"], ans: "Brother"
+},
+{
+  q: "Q57. If A + B means A is the brother of B; A x B means A is the son of B; and A % B means B is the daughter of A, which of the following means M is the maternal uncle of N?", options: ["M + O x N", "M % O x N + P", "M + O % N", "None of these"], ans: "M + O x N"
+},
+{
+  q: "Q58. If D is the brother of B, how B is related to C? To answer this question which of the statements is/are necessary? 1. The son of D is the grandson of C. 2. B is the sister of D.", options: ["Only 1", "Only 2", "Either 1 or 2", "1 and 2 both are required"], ans: "1 and 2 both are required"
+},
+{
+  q: "Q59. If A + B means A is the father of B; A - B means A is the brother of B; A % B means A is the wife of B and A x B means A is the mother of B, which of the following shows that M is the maternal grandmother of T?", options: ["M x N % S + T", "M x N - S % T", "M x S - N % T", "M x N x S % T"], ans: "M x N % S + T"
+},
+{
+  q: "Q60. Pointing to a photograph, Bajpai said, 'He is the son of the only daughter of the father of my brother.' How is Bajpai related to the man in the photograph?", options: ["Nephew", "Brother", "Father", "Maternal Uncle"], ans: "Father"
+},
+
+{
+  q: "Q61. Deepak said to Nitin, 'That boy playing with the football is the younger of the two brothers of the daughter of my father's wife.' How is the boy related to Deepak?", options: ["Son", "Brother", "Cousin", "Brother-in-law"], ans: "Brother"
+},
+{
+  q: "Q62. Pointing to a photograph, X said to his friend Y, 'She is the only daughter of the father of my mother.' How is X related to the person in the photograph?", options: ["Daughter", "Son", "Nephew", "Cannot be decided"], ans: "Son"
+},
+{
+  q: "Q63. Veena, who is the sister-in-law of Ashok, is the daughter-in-law of Kalyani. Dheeraj is the father of Sudeep, who is the only brother of Ashok. How is Kalyani related to Ashok?", options: ["Mother-in-law", "Aunt", "Wife", "None of these"], ans: "None of these"
+},
+{
+  q: "Q64. If A + B means A is the sister of B; A x B means A is the wife of B; A % B means A is the father of B and A - B means A is the brother of B, which of the following means T is the daughter of P?", options: ["P x Q % R + S - T", "P x Q % R - T + S", "P x Q % R + T - S", "P x Q % R + S + T"], ans: "P x Q % R + T - S"
+},
+{
+  q: "Q65. Pointing to a woman, Abhijit said, 'Her granddaughter is the only daughter of my brother.' How is the woman related to Abhijit?", options: ["Mother", "Grandmother", "Mother-in-law", "Cannot be determined"], ans: "Mother"
+},
+
+{
+  q: "Q66. Pointing to a photograph, Ravi said, 'She is the mother of the only son of my father.' How is Ravi related to the woman?", options: ["Son", "Brother", "Nephew", "Father"], ans: "Son"
+},
+{
+  q: "Q67. If A + B means A is the father of B; A - B means A is the brother of B; A x B means A is the mother of B; A % B means A is the sister of B, which expression shows that P is the paternal aunt of Q?", options: ["P % M + Q", "P x M - Q", "P + M - Q", "P - M % Q"], ans: "P % M + Q"
+},
+{
+  q: "Q68. A says to B, 'He is the son of the daughter of my father’s mother.' How is the boy related to A?", options: ["Brother", "Cousin", "Nephew", "Son"], ans: "Cousin"
+},
+{
+  q: "Q69. Pointing to a man, Seema said, 'He is the son of my grandmother’s only son.' How is Seema related to the man?", options: ["Sister", "Cousin", "Niece", "Daughter"], ans: "Sister"
+},
+{
+  q: "Q70. If A + B means A is the mother of B; A x B means A is the brother of B; A % B means A is the father of B and A - B means A is the sister of B, which expression shows that X is the maternal uncle of Y?", options: ["X x Z + Y", "X + Z % Y", "X % Z + Y", "X - Z x Y"], ans: "X x Z + Y"
+},
+
+{
+  q: "Q71. Pointing to a girl, Mohan said, 'Her father is the only son of my grandfather.' How is the girl related to Mohan?", options: ["Sister", "Cousin", "Daughter", "Niece"], ans: "Cousin"
+},
+{
+  q: "Q72. A woman said, 'The only son of my mother’s son is my grandson.' How is the woman related to the boy’s father?", options: ["Mother", "Grandmother", "Mother-in-law", "Cannot be determined"], ans: "Mother"
+},
+{
+  q: "Q73. Pointing to a photograph, Anil said, 'He is the son of the daughter of my father.' How is the boy related to Anil?", options: ["Brother", "Cousin", "Nephew", "Son"], ans: "Cousin"
+},
+{
+  q: "Q74. If A + B means A is the father of B; A - B means A is the brother of B; A x B means A is the mother of B; A % B means A is the sister of B, which expression shows that P is the paternal grandfather of Q?", options: ["P + M + Q", "P % M + Q", "P + M - Q", "P x M + Q"], ans: "P + M + Q"
+},
+{
+  q: "Q75. Pointing to a man, Ravi said, 'He is the father of the only son of my mother.' How is Ravi related to the man?", options: ["Son", "Brother", "Nephew", "Cousin"], ans: "Son"
+},
+
+{
+  q: "Q76. A says to B, 'He is the son of my father’s only son.' How is he related to A?", options: ["Brother", "Nephew", "Cousin", "Son"], ans: "Brother"
+},
+{
+  q: "Q77. Pointing to a woman, Ramesh said, 'She is the mother of the only daughter of my father.' How is Ramesh related to the woman?", options: ["Son", "Daughter", "Brother", "Nephew"], ans: "Son"
+},
+{
+  q: "Q78. If A + B means A is the mother of B; A - B means A is the brother of B; A x B means A is the father of B; A % B means A is the sister of B, which expression shows that X is the maternal grandmother of Y?", options: ["X + Z x Y", "X x Z + Y", "X % Z + Y", "X - Z % Y"], ans: "X + Z x Y"
+},
+{
+  q: "Q79. Pointing to a boy, Suresh said, 'He is the son of the only son of my mother.' How is Suresh related to the boy?", options: ["Brother", "Uncle", "Cousin", "Father"], ans: "Brother"
+},
+{
+  q: "Q80. A says to B, 'That man is the father of the only son of my mother’s daughter.' How is the man related to A?", options: ["Father", "Brother", "Uncle", "Cousin"], ans: "Father"
+},
+
+{
+  q: "Q81. Pointing to a girl, Mohan said, 'She is the daughter of the only son of my mother.' How is the girl related to Mohan?", options: ["Sister", "Cousin", "Daughter", "Niece"], ans: "Sister"
+},
+{
+  q: "Q82. If A + B means A is the father of B; A - B means A is the brother of B; A x B means A is the mother of B; A % B means A is the sister of B, which expression shows that P is the maternal aunt of Q?", options: ["P % M + Q", "P x M - Q", "P + M - Q", "P - M % Q"], ans: "P % M + Q"
+},
+{
+  q: "Q83. Pointing to a boy, Seema said, 'He is the son of the only daughter of my grandfather.' How is Seema related to the boy?", options: ["Brother", "Cousin", "Niece", "Daughter"], ans: "Cousin"
+},
+{
+  q: "Q84. A says to B, 'He is the son of my father’s mother’s only son.' How is he related to A?", options: ["Brother", "Nephew", "Cousin", "Son"], ans: "Brother"
+},
+{
+  q: "Q85. Pointing to a girl, Ravi said, 'She is the daughter of the only son of my father.' How is the girl related to Ravi?", options: ["Sister", "Cousin", "Daughter", "Niece"], ans: "Sister"
+},
+
+{
+  q: "Q86. If A + B means A is the mother of B; A - B means A is the brother of B; A x B means A is the father of B; A % B means A is the sister of B, which expression shows that X is the maternal grandmother of Y?", options: ["X + Z x Y", "X x Z + Y", "X % Z + Y", "X - Z % Y"], ans: "X + Z x Y"
+},
+{
+  q: "Q87. Pointing to a man, Anil said, 'He is the son of the only daughter of my grandfather.' How is Anil related to the man?", options: ["Brother", "Cousin", "Nephew", "Son"], ans: "Brother"
+},
+{
+  q: "Q88. A says to B, 'That boy playing with the ball is the younger of the two brothers of the daughter of my father’s wife.' How is the boy related to A?", options: ["Son", "Brother", "Cousin", "Brother-in-law"], ans: "Brother"
+}
 ];
 let totalTime = 0;
 let timerInterval = null;
